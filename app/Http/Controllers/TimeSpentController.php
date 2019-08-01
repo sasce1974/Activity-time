@@ -48,8 +48,8 @@ class TimeSpentController extends Controller
         $activity['title'] = trim(filter_var($activity['title'], FILTER_SANITIZE_STRING));
         $activity['description'] = trim(filter_var($activity['description'], FILTER_SANITIZE_STRING));
 
-        if($activity['title']=="" || $activity['description']==""){
-            return back(406)->withErrors("Please insert valid information in the input fields.");
+        if($activity['title']==""){
+            return back()->withErrors("Please insert valid information in the input fields.");
         }
 
         //Save inputs to database...
