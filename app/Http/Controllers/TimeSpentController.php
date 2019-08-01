@@ -19,14 +19,14 @@ class TimeSpentController extends Controller
 
 
     /** function store gets the inputs from the form, do some
-    checkings if the request is sent by our form, sanitize
+    checking if the request is sent by our form, sanitize
     strings and do validation of all inputs */
 
     public function store(Request $request){
 
         //Check if the request url is same as this page url...
 
-        $this_url = $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
+        $this_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
         if($request->url() != $this_url){
             die("Please use input form.");
         }
@@ -45,8 +45,12 @@ class TimeSpentController extends Controller
 
         //Sanitize strings...
 
-        $activity['title'] = filter_var($activity['title'], FILTER_SANITIZE_STRING);
-        $activity['description'] = filter_var($activity['description'], FILTER_SANITIZE_STRING);
+        $activity['title'] = trim(filter_var($activity['title'], FILTER_SANITIZE_STRING));
+        $activity['description'] = trim(filter_var($activity['description'], FILTER_SANITIZE_STRING));
+
+        if($activity['title']=="" || $activity['description']==""){
+            return back(406)->withErrors("Please insert valid information in the input fields.");
+        }
 
         //Save inputs to database...
 

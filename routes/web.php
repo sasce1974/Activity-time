@@ -18,3 +18,7 @@ Route::get('/', 'TimeSpentController@index');
 Route::post('/store', 'TimeSpentController@store');
 
 Route::delete('/delete', 'TimeSpentController@destroy');
+
+Route::fallback(function(){
+    return redirect('/');
+});

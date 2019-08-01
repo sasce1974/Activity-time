@@ -30,7 +30,7 @@
 
 {{--Header--}}
     <div class="bg-dark text-light px-3 py-1">
-        <h3 class="font-italic"><i class="fa fa-area-chart"></i> Activity Time - Total time spent: {{formatMinutes($activities->sum('time_spent'))}}</h3>
+        <h3 class="font-italic"><i class="fa fa-area-chart"></i> Activity Time - Total time spent: {{(isset($activities) ? formatMinutes($activities->sum('time_spent')) : "Not loaded")}}</h3>
     </div>
 
 {{--Messages from session--}}
@@ -99,7 +99,8 @@
                 <div class="col-1">Created at</div>
                 <div class="col-1">Delete</div>
             </div>
-        @foreach($activities as $activity)
+        @if(isset($activities))
+            @foreach($activities as $activity)
             <div class="row stripped-row mx-2 border-bottom align-items-center" style="min-height: 50px">
                 <div class="col-md-3 font-weight-bold" style="word-wrap: break-word">{{$activity->id}}. {{$activity->title}}</div>
                 <div class="col-md-5" style="word-wrap: break-word">{{$activity->description}}</div>
@@ -114,8 +115,9 @@
                     </form>
                 </div>
             </div>
-        @endforeach
+            @endforeach
         <div class="w-25 my-4 text-center" style="position:absolute; left:50%; transform: translate(-50%, 0)">{{$activities->links()}}</div>
+        @endif
     </div>
 
 <script src="/js/jquery.js"></script>
